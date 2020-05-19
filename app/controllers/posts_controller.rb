@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :authorized
+  
   def index
     #fetch all the posts
     #first the posts should be sorted according to the deadline

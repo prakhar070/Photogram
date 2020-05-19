@@ -18,8 +18,11 @@
                     <!-- navigation bar -->
                     <div class="py-2">
                         <ul class="profile-header-tab nav nav-tabs">
-                            <li class="nav-item"><a href="#profile-post" class="nav-link active show" data-toggle="tab">HOME</a></li>
-                            <li class="nav-item"><a href="#profile-about" class="nav-link" data-toggle="tab">PROFILE</a></li>
+                            <li><%= link_to  "HOME", root_path, class: "nav-link" %></li>
+                            <% if logged_in? %>
+                                <li><%= link_to  "PROFILE", user_path(current_user), class: "nav-link" %></li>
+                                <li><%= link_to "LOGOUT", session_path(current_user), method: :delete ,class: "nav-link"%></li>
+                            <% end %>
                         </ul>
                     </div>
                     <%= yield %>
