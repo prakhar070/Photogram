@@ -1,8 +1,8 @@
-<%= form_for @post do |f| %>
-<% if @post.errors[:caption].any? %><span id="error"><%= @post.errors[:caption][0] %></span><% end %>
+<%= form_for post do |f| %>
+<% if post.errors[:caption].any? %><span id="error"><%= post.errors[:caption][0] %></span><% end %>
 <%= f.text_field :caption , class: "form-control mb-2 mr-sm-2" ,placeholder: "caption" %>
 
-<% if @post.errors[:image].any? %><span id="error"><%= @post.errors[:image][0] %></span><% end %>
+<% if post.errors[:image].any? %><span id="error"><%= post.errors[:image][0] %></span><% end %>
 <div class="input-group mb-2 mr-sm-2">
     <div class="custom-file">
         <%= f.file_field :image , class: "custom-file-input" , id: "customFile"%>
