@@ -1,0 +1,33 @@
+<!-- begin posts-content -->
+<div class="profile-content">
+    <div class="tab-content p-0">
+        <div class="tab-pane fade active show" id="profile-post">
+            <!-- begin timeline for the posts -->
+
+            <!-- bootstrap inline form to create new posts -->
+
+            <%= form_for @post do |f| %>
+            <%= f.text_field :caption , class: "form-control mb-2 mr-sm-2" ,placeholder: "caption" %>
+
+
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="custom-file">
+                    <%= f.file_field :image , class: "custom-file-input" , id: "customFile"%>
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+            </div>
+
+            <%= f.submit "Post",class: "mb-2 btn btn-dark" %>
+            <% end %>
+            <ul class="timeline my-5">
+                <!-- individual posts -->
+                <div class="container" id="posts">
+                    <%= render @posts %>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="infinite-scrolling">
+    <%= will_paginate @posts %>
+</div>
