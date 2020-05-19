@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   before_action :authorized
-  
+
   def index
     #fetch all the posts
     #first the posts should be sorted according to the deadline
@@ -16,6 +16,7 @@ class PostsController < ApplicationController
   def create
     #create a new Post
     @post = Post.new(post_params)
+    @post.user_id = current_user.id
     if @post.save
       redirect_to root_path
     else

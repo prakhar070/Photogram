@@ -13,8 +13,14 @@
     <!-- begin timeline-body -->
     <div class="timeline-body">
         <div class="timeline-header">
-            <span class="userimage"><img src="profile.jpg" alt=""></span>
-            <span class="username"><a href="javascript:;">Prakhar Bansal</a> <small></small></span>
+            <span class="userimage">
+                <% if @user.avatar.attached? %>
+                <img src="<%= (url_for(@user.avatar))%>" alt="..." />
+                <% else %>
+                <img src="nouser.jpg" alt="">
+                <% end %>
+            </span>
+            <span class="username"><a href="javascript:;"><%= User.find(post.user_id).username %></a> <small></small></span>
             <span class="pull-right text-muted">18 Views</span>
         </div>
         <div class="timeline-content">
@@ -23,7 +29,6 @@
             </div>
             <hr />
             <div class="media">
-
                 <% if post.image.attached? %>
                 <img src="<%= (url_for(post.image))%>" ,class="img-thumbnail rounded mr-3" alt="..." width="100%" height="auto">
                 <% end %>
