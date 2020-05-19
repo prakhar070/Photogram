@@ -1,6 +1,13 @@
 class User < ApplicationRecord
     has_secure_password
+
+    #a user has many posts
+    has_many :posts
+
+    #a user has many comments through posts
+    has_many :comments
     has_one_attached:avatar
+
     #validations added
     validates :username, presence: true, uniqueness: true
     validates :password, presence: true, length: { minimum: 8 }

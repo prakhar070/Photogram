@@ -1,0 +1,29 @@
+<li>
+    <div class="user mr-2">
+        <% if User.find(comment.user_id).avatar.attached? %>
+        <img src="<%= (url_for(User.find(comment.user_id).avatar))%>" alt="..." />
+        <% else %>
+        <img src="nouser.jpg" alt="">
+        <% end %>
+    </div>
+    <strong> <%= User.find(comment.user_id).username %> - </strong>
+    <%= comment.body%>
+    <%= form_for Comment.new, class: "form-inline" do |f| %>
+    <div class="input-group mb-2 mr-sm-2">
+        <div class="user mr-2">
+            <% if User.find(comment.user_id).avatar.attached? %>
+            <img src="<%= (url_for(User.find(comment.user_id).avatar))%>" alt="..." />
+            <% else %>
+            <img src="nouser.jpg" alt="">
+            <% end %>
+        </div>
+        <%= f.hidden_field :commentable_id, value: comment.id %>
+        <%= f.hidden_field :commentable_type, value: "Comment" %>
+        <%= f.text_field :body, placeholder: "Add a reply ", class: "form-control mb-2 mr-sm-2"%>
+        <%= f.submit "reply", class: "btn btn-primary mb-2 rounded-corner"%>
+    </div>
+    <% end %>
+    <ul style="list-style: none;">
+        <%= render partial: 'comment', collection: comment.comments %>
+    </ul>
+</li>

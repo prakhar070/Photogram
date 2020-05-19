@@ -14,13 +14,13 @@
     <div class="timeline-body">
         <div class="timeline-header">
             <span class="userimage">
-                <% if @user.avatar.attached? %>
-                <img src="<%= (url_for(@user.avatar))%>" alt="..." />
+                <% if User.find(post.user_id).avatar.attached? %>
+                <img src="<%= (url_for(User.find(post.user_id).avatar))%>" alt="..." />
                 <% else %>
                 <img src="nouser.jpg" alt="">
                 <% end %>
             </span>
-            <span class="username"><a href="javascript:;"><%= User.find(post.user_id).username %></a> <small></small></span>
+            <span class="username"><%= User.find(post.user_id).username %><small></small></span>
             <span class="pull-right text-muted">18 Views</span>
         </div>
         <div class="timeline-content">
@@ -41,10 +41,6 @@
             </div>
             <div class="stats">
                 <span class="fa-stack fa-fw stats-icon">
-                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
-                    <i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
-                </span>
-                <span class="fa-stack fa-fw stats-icon">
                     <i class="fa fa-circle fa-stack-2x text-primary"></i>
                     <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
                 </span>
@@ -55,21 +51,31 @@
             <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
             <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a>
             <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
+            <i class="fa fa-pencil-square-o fa-fw fa-lg m-r-3 "></i>
             <%= link_to "Edit", edit_post_path(post.id), class: "m-r-15 text-inverse-lighter" %>
         </div>
         <div class="timeline-comment-box">
-            <div class="user"><img src="profile.jpg"></div>
-            <div class="input">
-                <form action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control rounded-corner" placeholder="Write a comment...">
-                        <span class="input-group-btn p-l-10">
-                            <button class="btn btn-primary f-s-12 rounded-corner" type="button">Comment</button>
-                        </span>
-                    </div>
-                </form>
+
+
+            <!-- to add comments -->
+            <%= form_for Comment.new, class: "form-inline" do |f| %>
+            <div class="input-group mb-2 mr-sm-2">
+                <div class="user mr-2">
+                    <% if current_user.avatar.attached? %>
+                        <img src="<%= (url_for(User.find(post.user_id).avatar))%>" alt="..." />
+                    <% else %>
+                        <img src="nouser.jpg" alt="">
+                    <% end %>
+                </div>
+                <%= f.hidden_field :commentable_id, value: post.id %>
+                <%= f.hidden_field :commentable_type, value: "Post" %>
+                <%= f.text_field :body, placeholder: "Add a Comment ", class: "form-control mb-2 mr-sm-2"%>
+                <%= f.submit "comment", class: "btn btn-primary mb-2 rounded-corner"%>
             </div>
+            <% end %>
+            <!-- render the remaining comments -->
+            <ul style= "list-style: none;"><%= render partial: 'comment', collection: post.comments %></ul>
         </div>
-    </div>
-    <!-- end timeline-body -->
+        <!-- end timeline-body -->
 </li>
+
