@@ -4,10 +4,6 @@ class PostsController < ApplicationController
     #first the posts should be sorted according to the deadline
     @posts = Post.paginate(page: params[:page]).order([:created_at]).reverse_order
     @post = Post.new
-    respond_to do |format|
-      format.html
-      format.js
-    end
   end
 
   def show
@@ -21,7 +17,8 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to root_path
     else
-      render :new
+      @posts = Post.paginate(page: params[:page]).order([:created_at]).reverse_order
+      render :index
     end
   end
 
