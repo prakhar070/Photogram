@@ -7,8 +7,10 @@ class User < ApplicationRecord
     #a user has many likes
     has_many :likes
     
-    #a user has many comments through posts
+    #a user has many comments
     has_many :comments
+
+    #a user has a user page
     has_one_attached:avatar
 
     #validations added

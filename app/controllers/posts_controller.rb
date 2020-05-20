@@ -1,10 +1,13 @@
+#controller to manage all the posts
 class PostsController < ApplicationController
+  #this ensures that the user should be allowed any post related activity once he is logged in
   before_action :authorized
 
   def index
     #fetch all the posts
-    #first the posts should be sorted according to the deadline
+    #first the posts should be sorted according to the time they were created
     @posts = Post.paginate(page: params[:page]).order([:created_at]).reverse_order
+    #also passed an empty post object for the form present in the timeline
     @post = Post.new
   end
 

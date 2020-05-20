@@ -1,18 +1,9 @@
+<!-- this renders out a single post -->
 <li>
-    <!-- begin timeline-time -->
-    <div class="timeline-time">
-        <span class="date">today</span>
-        <span class="time">04:20</span>
-    </div>
-    <!-- end timeline-time -->
-    <!-- begin timeline-icon -->
-    <div class="timeline-icon">
-        <a href="javascript:;">&nbsp;</a>
-    </div>
-    <!-- end timeline-icon -->
     <!-- begin timeline-body -->
     <div class="timeline-body">
         <div class="timeline-header">
+            <!-- displays the image of the user who has posted -->
             <span class="userimage">
                 <% if User.find(post.user_id).avatar.attached? %>
                 <img src="<%= (url_for(User.find(post.user_id).avatar))%>" alt="..." />
@@ -20,19 +11,14 @@
                 <img src="nouser.jpg" alt="">
                 <% end %>
             </span>
+            <!-- displays the username of the user -->
             <span class="username"><%= User.find(post.user_id).username %><small></small></span>
-            <span class="pull-right text-muted">18 Views</span>
         </div>
         <div class="timeline-content">
-            <div class="container">
-                <h6><%= post.caption %></h6>
-            </div>
-            <hr />
-            <div class="media">
-                <% if post.image.attached? %>
-                <img src="<%= (url_for(post.image))%>" ,class="img-thumbnail rounded mr-3" alt="..." width="100%" height="auto">
-                <% end %>
-            </div>
+            <!-- relevant post details -->
+            <h6><%= post.caption %></h6>
+            <hr/>
+            <img src="<%= (url_for(post.image))%>" ,class="img-thumbnail rounded mr-3" alt="..." width="100%" height="auto">
         </div>
         <div class="timeline-likes">
             <div class="stats-right">
@@ -47,32 +33,29 @@
             </div>
         </div>
         <div class="timeline-footer">
-            <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a>
-            <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a>
-            <a href="javascript:;" class="m-r-15 text-inverse-lighter"><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a>
+            <i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i>
+            <%= link_to  "Like", likes_path(:post_id => post.id), method: :post ,class: "mr-3" %>
             <i class="fa fa-pencil-square-o fa-fw fa-lg m-r-3 "></i>
             <%= link_to "Edit", edit_post_path(post.id), class: "m-r-15 text-inverse-lighter" %>
         </div>
         <div class="timeline-comment-box">
-
-
-            <!-- to add comments -->
+            <!-- a form to add a new comment -->
             <%= form_for Comment.new, class: "form-inline" do |f| %>
-            <div class="input-group mb-2 mr-sm-2">
-                <div class="user mr-2">
-                    <% if current_user.avatar.attached? %>
-                        <img src="<%= (url_for(current_user.avatar))%>" alt="..." />
-                    <% else %>
-                        <img src="nouser.jpg" alt="">
-                    <% end %>
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="user mr-2">
+                        <% if current_user.avatar.attached? %>
+                            <img src="<%= (url_for(current_user.avatar))%>" alt="..." />
+                        <% else %>
+                            <img src="nouser.jpg" alt="">
+                        <% end %>
+                    </div>
+                    <%= f.hidden_field :commentable_id, value: post.id %>
+                    <%= f.hidden_field :commentable_type, value: "Post" %>
+                    <%= f.text_field :body, placeholder: "Add a Comment ", class: "form-control mb-2 mr-sm-2"%>
+                    <%= f.submit "comment", class: "btn btn-primary mb-2 rounded-corner"%>
                 </div>
-                <%= f.hidden_field :commentable_id, value: post.id %>
-                <%= f.hidden_field :commentable_type, value: "Post" %>
-                <%= f.text_field :body, placeholder: "Add a Comment ", class: "form-control mb-2 mr-sm-2"%>
-                <%= f.submit "comment", class: "btn btn-primary mb-2 rounded-corner"%>
-            </div>
             <% end %>
-            <!-- render the remaining comments -->
+            <!-- render the all the comments related to this post -->
             <ul style= "list-style: none;"><%= render partial: 'comment', collection: post.comments %></ul>
         </div>
         <!-- end timeline-body -->

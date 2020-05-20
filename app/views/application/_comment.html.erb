@@ -1,3 +1,4 @@
+<!-- this partial is for rendering comment -->
 <li>
     <div class="user mr-2">
         <% if User.find(comment.user_id).avatar.attached? %>
@@ -6,8 +7,11 @@
         <img src="nouser.jpg" alt="">
         <% end %>
     </div>
+    <!-- displaying the actual comment with the username -->
     <strong> <%= User.find(comment.user_id).username %> - </strong>
     <%= comment.body%>
+
+    <!-- a form for submitting a reply -->
     <%= form_for Comment.new, class: "form-inline" do |f| %>
     <div class="input-group mb-2 mr-sm-2">
         <div class="user mr-2">
@@ -23,6 +27,7 @@
         <%= f.submit "reply", class: "btn btn-primary mb-2 rounded-corner"%>
     </div>
     <% end %>
+    <!-- in a recursive manner, call out for all the comments associated with this comment -->
     <ul style="list-style: none;">
         <%= render partial: 'comment', collection: comment.comments %>
     </ul>
