@@ -4,6 +4,9 @@ class User < ApplicationRecord
     #a user has many posts
     has_many :posts
 
+    #a user has many likes
+    has_many :likes
+    
     #a user has many comments through posts
     has_many :comments
     has_one_attached:avatar

@@ -36,15 +36,14 @@
         </div>
         <div class="timeline-likes">
             <div class="stats-right">
-                <span class="stats-text">259 Shares</span>
-                <span class="stats-text">21 Comments</span>
+                <span class="stats-text"><%= post.comments.count %> Comments</span>
             </div>
             <div class="stats">
                 <span class="fa-stack fa-fw stats-icon">
                     <i class="fa fa-circle fa-stack-2x text-primary"></i>
                     <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
                 </span>
-                <span class="stats-total">4.3k</span>
+                <span class="stats-total"><%= post.likes.count %></span>
             </div>
         </div>
         <div class="timeline-footer">
@@ -62,7 +61,7 @@
             <div class="input-group mb-2 mr-sm-2">
                 <div class="user mr-2">
                     <% if current_user.avatar.attached? %>
-                        <img src="<%= (url_for(User.find(post.user_id).avatar))%>" alt="..." />
+                        <img src="<%= (url_for(current_user.avatar))%>" alt="..." />
                     <% else %>
                         <img src="nouser.jpg" alt="">
                     <% end %>
